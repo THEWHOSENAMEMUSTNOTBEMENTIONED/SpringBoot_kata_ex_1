@@ -1,15 +1,13 @@
 package com.nikita_semenov.spring.springboot.springboot_kata_ex_1.controller;
 
-
 import com.nikita_semenov.spring.springboot.springboot_kata_ex_1.model.User;
 import com.nikita_semenov.spring.springboot.springboot_kata_ex_1.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
-
 
 import java.util.List;
 
@@ -22,7 +20,6 @@ public class UserController {
     public UserController(UserServiceImpl userService) {
         this.userService = userService;
     }
-
 
     @GetMapping("/users")
     public String findAllUsers(Model model) {
@@ -43,14 +40,14 @@ public class UserController {
         return "redirect:/users";
     }
 
-    @GetMapping("/user-delete/{id}")
-    public String deleteUser(@PathVariable("id") int id) {
+    @GetMapping("/user-delete")
+    public String deleteUser(@RequestParam("id") int id) {
         userService.deleteById(id);
         return "redirect:/users";
     }
 
-    @GetMapping("/user-update/{id}")
-    public String updateUserForm(@PathVariable("id") int id, Model model) {
+    @GetMapping("/user-update")
+    public String updateUserForm(@RequestParam("id") int id, Model model) {
         User user = userService.findById(id);
         model.addAttribute("user", user);
         return "/user-update";
@@ -61,6 +58,4 @@ public class UserController {
         userService.saveUser(user);
         return "redirect:/users";
     }
-
-
 }
